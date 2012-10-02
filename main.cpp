@@ -11,6 +11,13 @@ sgct::Engine * gEngine;
 
 DrawableObject * sphere = NULL;
 
+enum picked
+{
+    none = 0, moon, earth, mars
+};
+
+u8 chosen = none;
+
 u32 earthTexture = 0;
 u32 marsTexture = 0;
 u32 moonTexture = 0;
@@ -81,8 +88,8 @@ void myPreSyncFun()
 {
 	if( gEngine->isMaster() )
     {
-      curr_time = sgct::Engine::getTime();
-      /** Calculate variables here for navigation, interaction, etc. **/
+        curr_time = sgct::Engine::getTime();
+        /** Calculate variables here for navigation, interaction, etc. **/
     }
 }
 
@@ -94,6 +101,8 @@ void myDrawFun()
     glBindTexture( GL_TEXTURE_2D, sgct::TextureManager::Instance()->getTextureByIndex(earthTexture) );
     glPushMatrix();
         glRotatef(10.0f*curr_time, 0,1,0);
+        if(chosen == earth)
+            glScalef(1.5f,1.5f,1.5f);
         sphere->draw();
     glPopMatrix();
 
@@ -101,7 +110,10 @@ void myDrawFun()
     glPushMatrix();
         glTranslatef(-1.2,0,0);
         glRotatef(20.0f*curr_time, 0,1,0);
-        glScalef(0.26,0.26,0.26);
+        if(chosen == moon)
+            glScalef(0.5f,0.5f,0.5f);
+        else
+            glScalef(0.26,0.26,0.26);
         sphere->draw();
     glPopMatrix();
 
@@ -109,32 +121,52 @@ void myDrawFun()
     glPushMatrix();
         glTranslatef(1.2,0,0);
         glRotatef(5.0f*curr_time, 0.5,1,0);
-        glScalef(0.5,0.5,0.5);
+        if(chosen == mars)
+            glScalef(1.0f,1.0f,1.0f);
+        else
+            glScalef(0.5,0.5,0.5);
         sphere->draw();
     glPopMatrix();
 }
 
 void myEncodeFun()
 {
-  sgct::SharedData::Instance()->writeDouble( curr_time );
+    sgct::SharedData::Instance()->writeDouble( curr_time );
+    sgct::SharedData::Instance()->writeUChar( chosen );
 }
 
 void myDecodeFun()
 {
-  curr_time = sgct::SharedData::Instance()->readDouble();
+    curr_time = sgct::SharedData::Instance()->readDouble();
+    chosen = sgct::SharedData::Instance()->readUChar();
 }
 
 void keyCallback(int key, int action)
 {
-  if( gEngine->isMaster() )
+    if( gEngine->isMaster() )
     {
-      switch( key )
-    		{
+        switch( key )
+        {
     		case 'Q':
     			if(action == GLFW_PRESS)
     				gEngine->terminate();
     			break;
-    		}
+
+            case '1':
+                if(action == GLFW_PRESS)
+                    chosen = moon;
+                break;
+
+    		case '2':
+                if(action == GLFW_PRESS)
+                    chosen = earth;
+                break;
+
+            case '3':
+                if(action == GLFW_PRESS)
+                    chosen = mars;
+                break;
+        }
     }
 }
 
