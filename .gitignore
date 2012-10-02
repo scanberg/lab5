@@ -70,6 +70,7 @@ local.properties
 # Codeblocks
 *.cbp
 *.depend
+*.layout
 
 # Visual C++ cache files
 ipch/
@@ -124,6 +125,8 @@ UpgradeLog*.XML
 ############
 ## Windows
 ############
+
+*.exe
 
 # Windows image file caches
 Thumbs.db
