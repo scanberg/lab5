@@ -1,0 +1,105 @@
+# depslib dependency file v1.0
+1349177861 source:c:\users\gaspachelor\desktop\school\tnm086 vr\lab5\main.cpp
+	"sgct.h"
+	<GL/glfw.h>
+	<glm/glm.hpp>
+	<glm/gtc/type_ptr.hpp>
+	<glm/gtc/matrix_transform.hpp>
+	"DrawableObject.h"
+
+1348319856 source:c:\users\gaspachelor\desktop\school\tnm086 vr\lab5\tokenizer.cpp
+	"Tokenizer.h"
+
+1349169860 c:\users\gaspachelor\desktop\school\tnm086 vr\lab5\tokenizer.h
+	<vector>
+	<iostream>
+	<string>
+
+1348319856 source:c:\users\gaspachelor\desktop\school\tnm086 vr\lab5\objloader.cpp
+	"ObjLoader.h"
+
+1349169903 c:\users\gaspachelor\desktop\school\tnm086 vr\lab5\objloader.h
+	<iostream>
+	<string>
+	<cstdio>
+	<cassert>
+	<fstream>
+	<vector>
+	"Geometry.h"
+	"Tokenizer.h"
+
+1349170301 c:\users\gaspachelor\desktop\school\tnm086 vr\lab5\geometry.h
+	<iostream>
+	<algorithm>
+	<vector>
+	"Types.h"
+
+1349174639 c:\users\gaspachelor\desktop\school\tnm086 vr\lab5\types.h
+	<gl/glew.h>
+	<GL/glfw.h>
+	<glm/glm.hpp>
+	<glm/gtc/quaternion.hpp>
+	<glm/gtc/type_ptr.hpp>
+	<glm/gtx/random.hpp>
+	<omp.h>
+
+1349174981 c:\users\gaspachelor\desktop\school\tnm086 vr\lab5\drawableobject.h
+	<vector>
+	"Types.h"
+	"Geometry.h"
+
+1349177650 source:c:\users\gaspachelor\desktop\school\tnm086 vr\lab5\drawableobject.cpp
+	"DrawableObject.h"
+	"ObjLoader.h"
+
+1348319856 source:c:\users\gaspachelor\documents\github\lab5\objloader.cpp
+	"ObjLoader.h"
+
+1349169903 c:\users\gaspachelor\documents\github\lab5\objloader.h
+	<iostream>
+	<string>
+	<cstdio>
+	<cassert>
+	<fstream>
+	<vector>
+	"Geometry.h"
+	"Tokenizer.h"
+
+1349170301 c:\users\gaspachelor\documents\github\lab5\geometry.h
+	<iostream>
+	<algorithm>
+	<vector>
+	"Types.h"
+
+1349339732 c:\users\gaspachelor\documents\github\lab5\types.h
+	<glm/glm.hpp>
+	<glm/gtc/quaternion.hpp>
+	<glm/gtc/type_ptr.hpp>
+	<glm/gtx/random.hpp>
+	<omp.h>
+
+1349169860 c:\users\gaspachelor\documents\github\lab5\tokenizer.h
+	<vector>
+	<iostream>
+	<string>
+
+1348319856 source:c:\users\gaspachelor\documents\github\lab5\tokenizer.cpp
+	"Tokenizer.h"
+
+1349177650 source:c:\users\gaspachelor\documents\github\lab5\drawableobject.cpp
+	"DrawableObject.h"
+	"ObjLoader.h"
+
+1349174981 c:\users\gaspachelor\documents\github\lab5\drawableobject.h
+	<vector>
+	"Types.h"
+	"Geometry.h"
+
+1349182606 source:c:\users\gaspachelor\documents\github\lab5\main.cpp
+	"sgct.h"
+	<GL/glfw.h>
+	<glm/glm.hpp>
+	<glm/gtc/type_ptr.hpp>
+	<glm/gtc/matrix_transform.hpp>
+	"DrawableObject.h"
+

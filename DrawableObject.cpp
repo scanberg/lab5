@@ -1,5 +1,6 @@
 #include "DrawableObject.h"
 #include "ObjLoader.h"
+#include "sgct.h"
 
 DrawableObject::DrawableObject(Geometry *geom)
 {

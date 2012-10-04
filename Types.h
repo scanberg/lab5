@@ -1,12 +1,6 @@
 #ifndef TYPES_H
 #define TYPES_H
 
-#ifdef WIN32
-#include <gl/glew.h>
-#endif
-
-#include <GL/glfw.h>
-
 #include <glm/glm.hpp>
 #include <glm/gtc/quaternion.hpp>
 #include <glm/gtc/type_ptr.hpp>

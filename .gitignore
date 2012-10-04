@@ -49,7 +49,6 @@ local.properties
 *.ilk
 *.meta
 *.o
-*.obj
 *.pch
 *.pdb
 *.pgc
@@ -68,9 +67,9 @@ local.properties
 #packages/
 
 # Codeblocks
-*.cbp
-*.depend
-*.layout
+#*.cbp
+#*.depend
+#*.layout
 
 # Visual C++ cache files
 ipch/
