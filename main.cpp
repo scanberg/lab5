@@ -5,25 +5,27 @@
 #include <glm/gtc/type_ptr.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 
+#include "Types.h"
 #include "DrawableObject.h"
 
 sgct::Engine * gEngine;
 
 DrawableObject * sphere = NULL;
 
+u32 earthTexture = 0;
+u32 marsTexture = 0;
+u32 moonTexture = 0;
+
 enum picked
 {
     none = 0, moon, earth, mars
 };
 
-u8 chosen = none;
-
-u32 earthTexture = 0;
-u32 marsTexture = 0;
-u32 moonTexture = 0;
-
 //variables to share across cluster
+u8 chosen = none;
+mat4 transform;
 double curr_time = 0.0;
+
 
 //callbacks
 void myInitOGLFun();
@@ -78,8 +80,8 @@ void myInitOGLFun()
 
     sgct::TextureManager::Instance()->setAnisotropicFilterSize(4.0f);
 
+    sgct::TextureManager::Instance()->loadTexure(marsTexture, "mars", "media/mars.png", true);
 	sgct::TextureManager::Instance()->loadTexure(earthTexture, "earth", "media/earth.png", true);
-	sgct::TextureManager::Instance()->loadTexure(marsTexture, "mars", "media/mars.png", true);
 	sgct::TextureManager::Instance()->loadTexure(moonTexture, "moon", "media/moon.png", true);
 
 }
@@ -102,7 +104,9 @@ void myDrawFun()
     glPushMatrix();
         glRotatef(10.0f*curr_time, 0,1,0);
         if(chosen == earth)
-            glScalef(1.5f,1.5f,1.5f);
+            glColor3f(1.0f,1.0f,1.0f);
+        else
+            glColor3f(0.6f,0.6f,0.6f);
         sphere->draw();
     glPopMatrix();
 
@@ -110,10 +114,11 @@ void myDrawFun()
     glPushMatrix();
         glTranslatef(-1.2,0,0);
         glRotatef(20.0f*curr_time, 0,1,0);
+        glScalef(0.26,0.26,0.26);
         if(chosen == moon)
-            glScalef(0.5f,0.5f,0.5f);
+            glColor3f(1.0f,1.0f,1.0f);
         else
-            glScalef(0.26,0.26,0.26);
+            glColor3f(0.6f,0.6f,0.6f);
         sphere->draw();
     glPopMatrix();
 
@@ -121,24 +126,31 @@ void myDrawFun()
     glPushMatrix();
         glTranslatef(1.2,0,0);
         glRotatef(5.0f*curr_time, 0.5,1,0);
+        glScalef(0.5,0.5,0.5);
         if(chosen == mars)
-            glScalef(1.0f,1.0f,1.0f);
+            glColor3f(1.0f,1.0f,1.0f);
         else
-            glScalef(0.5,0.5,0.5);
+            glColor3f(0.6f,0.6f,0.6f);
         sphere->draw();
     glPopMatrix();
+
+    glColor3f(1.0f,1.0f,1.0f);
 }
 
 void myEncodeFun()
 {
     sgct::SharedData::Instance()->writeDouble( curr_time );
     sgct::SharedData::Instance()->writeUChar( chosen );
+	for(int i=0; i<16; i++)
+		sgct::SharedData::Instance()->writeFloat( glm::value_ptr(transform)[i] );
 }
 
 void myDecodeFun()
 {
     curr_time = sgct::SharedData::Instance()->readDouble();
     chosen = sgct::SharedData::Instance()->readUChar();
+	for(int i=0; i<16; i++)
+		glm::value_ptr(transform)[i] = sgct::SharedData::Instance()->readFloat();
 }
 
 void keyCallback(int key, int action)
@@ -165,6 +177,11 @@ void keyCallback(int key, int action)
             case '3':
                 if(action == GLFW_PRESS)
                     chosen = mars;
+                break;
+
+            case '0':
+                if(action == GLFW_PRESS)
+                    chosen = none;
                 break;
         }
     }
