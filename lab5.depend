@@ -103,7 +103,7 @@
 	<glm/gtc/matrix_transform.hpp>
 	"DrawableObject.h"
 
-1349784517 source:c:\users\gurido\documents\github\lab5\objloader.cpp
+1349807702 source:c:\users\gurido\documents\github\lab5\objloader.cpp
 	"ObjLoader.h"
 
 1349784517 c:\users\gurido\documents\github\lab5\objloader.h
@@ -122,10 +122,11 @@
 	<vector>
 	"Types.h"
 
-1349784517 c:\users\gurido\documents\github\lab5\types.h
+1349789857 c:\users\gurido\documents\github\lab5\types.h
 	<glm/glm.hpp>
 	<glm/gtc/quaternion.hpp>
 	<glm/gtc/type_ptr.hpp>
+	<glm/gtc/matrix_transform.hpp>
 	<glm/gtx/random.hpp>
 	<omp.h>
 
@@ -414,7 +415,7 @@
 1349784517 source:c:\users\gurido\documents\github\lab5\tokenizer.cpp
 	"Tokenizer.h"
 
-1349786409 source:c:\users\gurido\documents\github\lab5\main.cpp
+1349819028 source:c:\users\gurido\documents\github\lab5\main.cpp
 	"sgct.h"
 	<GL/glfw.h>
 	<glm/glm.hpp>

@@ -129,9 +129,9 @@ int loadObj( std::vector<Geometry> &geomList, const std::string &filename, float
                 if(tempSG > (i32)vertexUsed[vdata[i]].size()-1)
                     vertexUsed[vdata[i]].resize(tempSG+1,-1);
 
-                if(vertexUsed[vdata[i]][tempSG] > -1)
+                /*if(vertexUsed[vdata[i]][tempSG] > -1)
                     fdata[i] = vertexUsed[vdata[i]][tempSG];
-                else
+                else*/
                 {
                     vertexUsed[vdata[i]][tempSG] = (int)g.vertex.size();
 
