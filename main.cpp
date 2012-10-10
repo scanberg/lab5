@@ -126,12 +126,19 @@ void myPreSyncFun()
 
             f32 deadzone = 0.009f;
             static ivec2 startPosition;
+            static vec3 planeNormal;
+            vec3 planeUp(0,1,0);
+            vec3 planeRight;
             vec2 amount;
 
             if(mouseDown[MOUSELEFT] || mouseDown[MOUSEMIDDLE] || mouseDown[MOUSERIGHT])
-                amount = (vec2)(startPosition-mousePosition)*0.0005f;
+                amount = (vec2)(startPosition-mousePosition)*0.0009f;
             else
+            {
                 startPosition = mousePosition;
+                planeNormal = glm::normalize(-headDirection);
+                planeRight = glm::cross(planeUp,planeNormal);
+            }
 
             if(mouseDown[MOUSELEFT])
                 moveSpeed = glm::abs(amount.y) > deadzone ? amount.y-glm::sign(amount.y)*deadzone : 0.0f;
@@ -142,19 +149,16 @@ void myPreSyncFun()
             {
                 switch(modifier)
                 {
-                    /*case TRANSLATE:
-                        vec3 planeNormal = -headDirection;
-                        vec3 planeUp(0,1,0);
-                        vec3 planeRight = glm::cross(planeUp,planeNormal);
-                        translateMod = amount.x * planeRight + amount.y * planeUp;
+                    case TRANSLATE:
+                        translateMod = -amount.x * planeRight + amount.y * planeUp;
                         break;
-                    */
+
                     case ROTATE:
-                        rotateMod = vec3(amount.y,amount.x,0);
+                        rotateMod = vec3(amount.y,-amount.x,0)*100.0f;
                         break;
 
                     case SCALE:
-                        scaleMod = glm::abs(amount.y) > deadzone ? amount.y-glm::sign(amount.y)*deadzone : 0.0f;
+                        scaleMod = (glm::abs(amount.y) > deadzone ? amount.y-glm::sign(amount.y)*deadzone : 0.0f)*5.0f;
                         break;
                 }
             }
@@ -172,7 +176,8 @@ void myPreSyncFun()
 
         earthTransform = glm::translate(mat4(1.0f), vec3(0.0,0.0,0.0)+translateMod*(float)(chosen==EARTH));
         earthTransform = glm::scale(earthTransform, vec3(1.0f)+vec3(scaleMod)*(float)(chosen==EARTH));
-        earthTransform = glm::rotate(earthTransform, 10.0f*(float)curr_time, vec3(0,1,0));
+        earthTransform = glm::rotate(earthTransform, 10.0f*(float)curr_time+rotateMod.y*(float)(chosen==EARTH), vec3(0,1,0));
+        earthTransform = glm::rotate(earthTransform, rotateMod.x*(chosen==EARTH), vec3(1,0,0));
 
         moonTransform = glm::translate(mat4(1.0f), vec3(-1.2,0.0,0.0));
         moonTransform = glm::scale(moonTransform, vec3(0.26f));
