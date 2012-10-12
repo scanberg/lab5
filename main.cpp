@@ -7,12 +7,15 @@
 
 #include "Types.h"
 #include "DrawableObject.h"
+#include "Entity3D.h"
 
 #define MOUSE
 
 sgct::Engine * gEngine;
 
 DrawableObject * sphere = NULL;
+
+Entity3D earth, moon, mars, milkyway;
 
 enum navigationmode { GAZE=0, CROSSHAIR};
 
@@ -39,16 +42,11 @@ bool mouseDown[3];
 enum mousebuttons { MOUSELEFT = 0, MOUSEMIDDLE, MOUSERIGHT };
 ivec2 mousePosition;
 
-enum picked{ NONE = 0, MOON, EARTH, MARS };
+Entity3D *chosenEntity = NULL;
 
 //variables to share across cluster
-u8 chosen = NONE;
 double curr_time = 0.0;
-
 mat4 transform;
-mat4 earthTransform;
-mat4 moonTransform;
-mat4 marsTransform;
 
 //callbacks
 void myInitOGLFun();
@@ -108,6 +106,24 @@ void myInitOGLFun()
 	sgct::TextureManager::Instance()->loadTexure(earthTexture, "earth", "media/earth.png", true);
 	sgct::TextureManager::Instance()->loadTexure(moonTexture, "moon", "media/moon.png", true);
 
+    earth.setDrawable(sphere);
+    earth.setPosition(0,0,0);
+	earth.setTexture( sgct::TextureManager::Instance()->getTextureByIndex(earthTexture) );
+
+    moon.setDrawable(sphere);
+    moon.setPosition(-1.2,0,0);
+    moon.setScale(0.26);
+	moon.setTexture( sgct::TextureManager::Instance()->getTextureByIndex(moonTexture) );
+
+    mars.setDrawable(sphere);
+    mars.setPosition(1.2,0,0);
+    mars.setScale(0.5);
+	mars.setTexture( sgct::TextureManager::Instance()->getTextureByIndex(marsTexture) );
+
+    milkyway.setDrawable(sphere);
+    milkyway.setPosition(0,0,0);
+    milkyway.setScale(10.0);
+	milkyway.setTexture( sgct::TextureManager::Instance()->getTextureByIndex(milkywayTexture) );
 }
 
 void myPreSyncFun()
@@ -126,9 +142,6 @@ void myPreSyncFun()
 
             f32 deadzone = 0.009f;
             static ivec2 startPosition;
-            static vec3 planeNormal;
-            vec3 planeUp(0,1,0);
-            vec3 planeRight;
             vec2 amount;
 
             if(mouseDown[MOUSELEFT] || mouseDown[MOUSEMIDDLE] || mouseDown[MOUSERIGHT])
@@ -136,8 +149,6 @@ void myPreSyncFun()
             else
             {
                 startPosition = mousePosition;
-                planeNormal = glm::normalize(-headDirection);
-                planeRight = glm::cross(planeUp,planeNormal);
             }
 
             if(mouseDown[MOUSELEFT])
@@ -150,11 +161,16 @@ void myPreSyncFun()
                 switch(modifier)
                 {
                     case TRANSLATE:
+                    {
+                        vec3 planeNormal = -glm::normalize(headDirection);
+                        vec3 planeUp(0,1,0);
+                        vec3 planeRight = glm::cross(planeUp,planeNormal);
                         translateMod = -amount.x * planeRight + amount.y * planeUp;
+                    }
                         break;
 
                     case ROTATE:
-                        rotateMod = vec3(amount.y,-amount.x,0)*100.0f;
+                        rotateMod = vec3(amount.y,-amount.x,0)*0.1f;
                         break;
 
                     case SCALE:
@@ -166,6 +182,15 @@ void myPreSyncFun()
             /** Wand! **/
         #endif
 
+        /** modify chosenEntity with modifiers **/
+        if(chosenEntity)
+        {
+            chosenEntity->translate(translateMod);
+            chosenEntity->rotate(rotateMod);
+            chosenEntity->setScale(chosenEntity->getScale()+scaleMod);
+        }
+
+        /** setup transform matrix **/
         vec3 translation;
         if(navigation == GAZE)
             translation = glm::normalize(headDirection);
@@ -174,16 +199,28 @@ void myPreSyncFun()
 
         transform = glm::translate( transform, -translation*moveSpeed );
 
-        earthTransform = glm::translate(mat4(1.0f), vec3(0.0,0.0,0.0)+translateMod*(float)(chosen==EARTH));
-        earthTransform = glm::scale(earthTransform, vec3(1.0f)+vec3(scaleMod)*(float)(chosen==EARTH));
-        earthTransform = glm::rotate(earthTransform, 10.0f*(float)curr_time+rotateMod.y*(float)(chosen==EARTH), vec3(0,1,0));
-        earthTransform = glm::rotate(earthTransform, rotateMod.x*(chosen==EARTH), vec3(1,0,0));
+        /** setup entities **/
 
-        moonTransform = glm::translate(mat4(1.0f), vec3(-1.2,0.0,0.0));
-        moonTransform = glm::scale(moonTransform, vec3(0.26f));
+        /** earth **/
+        if(chosenEntity==&earth)
+            earth.setColor(1,1,1);
+        else
+            earth.setColor(0.7,0.7,0.7);
+        earth.rotate(0.0,0.001,0.0);
 
-        marsTransform = glm::translate(mat4(1.0f), vec3(1.2,0.0,0.0));
-        marsTransform = glm::scale(marsTransform, vec3(0.5f));
+        /** moon **/
+        if(chosenEntity==&moon)
+            moon.setColor(1,1,1);
+        else
+            moon.setColor(0.7,0.7,0.7);
+        moon.rotate(0.001,0.001,0.0);
+
+        /** mars **/
+        if(chosenEntity==&mars)
+            mars.setColor(1,1,1);
+        else
+            mars.setColor(0.7,0.7,0.7);
+        mars.rotate(0.0,-0.001,0.001);
     }
 }
 
@@ -207,12 +244,7 @@ void myDrawFun()
     /** Apply transforms for navigation and draw the scene **/
     glEnable(GL_TEXTURE_2D);
 
-    glPushMatrix();
-        glBindTexture( GL_TEXTURE_2D, sgct::TextureManager::Instance()->getTextureByIndex(milkywayTexture) );
-        glColor3f(0.5f,0.5f,0.5f);
-        glScalef(10.0f,10.0f,10.0f);
-        sphere->draw();
-    glPopMatrix();
+    milkyway.draw();
 
     glClear(GL_DEPTH_BUFFER_BIT);
 
@@ -221,38 +253,13 @@ void myDrawFun()
         glMultMatrixf(glm::value_ptr(transform));
 
         /** EARTH **/
-        glBindTexture( GL_TEXTURE_2D, sgct::TextureManager::Instance()->getTextureByIndex(earthTexture) );
-        glPushMatrix();
-
-            glMultMatrixf(glm::value_ptr(earthTransform));
-            if(chosen == EARTH)
-                glColor3f(1.0f,1.0f,1.0f);
-            else
-                glColor3f(0.7f,0.7f,0.7f);
-            sphere->draw();
-        glPopMatrix();
+        earth.draw();
 
         /** MOON **/
-        glBindTexture( GL_TEXTURE_2D, sgct::TextureManager::Instance()->getTextureByIndex(moonTexture) );
-        glPushMatrix();
-            glMultMatrixf(glm::value_ptr(moonTransform));
-            if(chosen == MOON)
-                glColor3f(1.0f,1.0f,1.0f);
-            else
-                glColor3f(0.7f,0.7f,0.7f);
-            sphere->draw();
-        glPopMatrix();
+        moon.draw();
 
         /** MARS **/
-        glBindTexture( GL_TEXTURE_2D, sgct::TextureManager::Instance()->getTextureByIndex(marsTexture) );
-        glPushMatrix();
-            glMultMatrixf(glm::value_ptr(marsTransform));
-            if(chosen == MARS)
-                glColor3f(1.0f,1.0f,1.0f);
-            else
-                glColor3f(0.7f,0.7f,0.7f);
-            sphere->draw();
-        glPopMatrix();
+        mars.draw();
 
     glPopMatrix();
 
@@ -264,39 +271,28 @@ void myDrawFun()
 void myEncodeFun()
 {
     sgct::SharedData::Instance()->writeDouble( curr_time );
-    sgct::SharedData::Instance()->writeUChar( chosen );
     sgct::SharedData::Instance()->writeUChar( navigation );
 
 	for(int i=0; i<16; i++)
 		sgct::SharedData::Instance()->writeFloat( glm::value_ptr(transform)[i] );
 
-    for(int i=0; i<16; i++)
-        sgct::SharedData::Instance()->writeFloat( glm::value_ptr(earthTransform)[i] );
-
-    for(int i=0; i<16; i++)
-        sgct::SharedData::Instance()->writeFloat( glm::value_ptr(moonTransform)[i] );
-
-    for(int i=0; i<16; i++)
-        sgct::SharedData::Instance()->writeFloat( glm::value_ptr(marsTransform)[i] );
+    earth.writeData();
+    moon.writeData();
+    mars.writeData();
 }
 
 void myDecodeFun()
 {
     curr_time = sgct::SharedData::Instance()->readDouble();
-    chosen = sgct::SharedData::Instance()->readUChar();
     navigation = sgct::SharedData::Instance()->readUChar();
 
 	for(int i=0; i<16; i++)
 		glm::value_ptr(transform)[i] = sgct::SharedData::Instance()->readFloat();
 
-	for(int i=0; i<16; i++)
-		glm::value_ptr(earthTransform)[i] = sgct::SharedData::Instance()->readFloat();
+    earth.getData();
+    moon.getData();
+    mars.getData();
 
-	for(int i=0; i<16; i++)
-		glm::value_ptr(moonTransform)[i] = sgct::SharedData::Instance()->readFloat();
-
-	for(int i=0; i<16; i++)
-		glm::value_ptr(marsTransform)[i] = sgct::SharedData::Instance()->readFloat();
 }
 
 void keyCallback(int key, int action)
@@ -312,22 +308,22 @@ void keyCallback(int key, int action)
 
             case '1':
                 if(action == GLFW_PRESS)
-                    chosen = MOON;
+                chosenEntity = &moon;
                 break;
 
     		case '2':
                 if(action == GLFW_PRESS)
-                    chosen = EARTH;
+                chosenEntity = &earth;
                 break;
 
             case '3':
                 if(action == GLFW_PRESS)
-                    chosen = MARS;
+                chosenEntity = &mars;
                 break;
 
             case '0':
                 if(action == GLFW_PRESS)
-                    chosen = NONE;
+                chosenEntity = NULL;
                 break;
 
             case GLFW_KEY_TAB:

@@ -2,33 +2,50 @@
 #ifndef ENTITY3D_H
 #define ENTITY3D_H
 
+#include "Types.h"
+#include "DrawableObject.h"
+
 class Entity3D
 {
 protected:
-    Entity3D *parent;
     vec3 position;
     vec3 orientation;
     f32 scale;
 
+    vec3 color;
+
+    Entity3D *parent;
     DrawableObject *drawObj;
+    u32 textureID;
 public:
-    Entity3D() : parent(NULL), drawObj(NULL) {}
+    Entity3D() : scale(1.0f), color(1.0f), parent(NULL), drawObj(NULL) {}
     virtual ~Entity3D() {}
 
     void setPosition(f32 x, f32 y, f32 z) { position = vec3(x,y,z); }
-    void setOrientation(f32 x, f32 y, f32 z) { orientation = vec3(x,y,z); }
+    void setOrientationXYZ(f32 x, f32 y, f32 z) { orientation = vec3(x,y,z); }
     void setScale(f32 s) { scale = s; }
 
-    void setRotation(f32 x, f32 y, f32 z);
+    void setColor(f32 r, f32 g, f32 b) { color = vec3(r,g,b); }
 
     void setDrawable(DrawableObject *_drawObj){ drawObj = _drawObj; }
+    void setTexture(u32 _tex) { textureID=_tex; }
+
+    vec3 getPosition() { return position; }
+    vec3 getOrientationXYZ() { return orientation; }
+    f32 getScale() { return scale; }
+
+    void rotate(f32 x, f32 y, f32 z) { orientation += vec3(x,y,z); }
+    void rotate(const vec3 &v) { orientation += v; }
+    void translate(f32 x, f32 y, f32 z) { position += vec3(x,y,z); }
+    void translate(const vec3 &v) { position += v; }
 
     mat4 getLocalMatrix();
-    void setLocalMatrix( const mat4 &mat )
+    mat4 getWorldMatrix();
 
-    virtual void update() {}
-    virtual void draw() {}
+    virtual void draw();
 
+    void writeData();
+    void getData();
 };
 
 #endif
