@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6" />
+	<Project>
+		<Option title="lab5_linux" />
+		<Option platforms="Unix;" />
+		<Option pch_mode="2" />
+		<Option compiler="gcc" />
+		<Build>
+			<Target title="Debug">
+				<Option platforms="Unix;" />
+				<Option output="main_linux" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj/Debug/" />
+				<Option type="1" />
+				<Option compiler="gcc" />
+				<Option parameters='-config &quot;single.xml&quot;' />
+				<Compiler>
+					<Add option="-g" />
+				</Compiler>
+			</Target>
+			<Target title="Release">
+				<Option platforms="Unix;" />
+				<Option output="../../../bin/textureExample/linux/textureExample" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj/Release/" />
+				<Option type="1" />
+				<Option compiler="gcc" />
+				<Option parameters='-config &quot;single.xml&quot;' />
+				<Compiler>
+					<Add option="-O3" />
+				</Compiler>
+			</Target>
+		</Build>
+		<Compiler>
+			<Add option="-O3" />
+			<Add option="-Wall" />
+			<Add directory="/usr/include/sgct" />
+		</Compiler>
+		<Linker>
+			<Add option="-static-libgcc" />
+			<Add option="-static-libstdc++" />
+			<Add library="sgct" />
+			<Add library="GL" />
+			<Add library="GLU" />
+			<Add library="X11" />
+			<Add library="Xrandr" />
+		</Linker>
+		<Unit filename="DrawableObject.cpp" />
+		<Unit filename="DrawableObject.h" />
+		<Unit filename="Entity3D.cpp" />
+		<Unit filename="Entity3D.h" />
+		<Unit filename="Geometry.h" />
+		<Unit filename="ObjLoader.cpp" />
+		<Unit filename="ObjLoader.h" />
+		<Unit filename="Tokenizer.cpp" />
+		<Unit filename="Tokenizer.h" />
+		<Unit filename="Types.h" />
+		<Unit filename="main.cpp" />
+		<Extensions>
+			<code_completion />
+			<debugger />
+			<envvars />
+		</Extensions>
+	</Project>
+</CodeBlocks_project_file>
