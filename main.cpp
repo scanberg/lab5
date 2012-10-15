@@ -23,11 +23,13 @@ f32 moveSpeed = 0.0f;
 
 u8 navigation = GAZE;
 
+bool accelerate = false;
+
 vec3 headDirection(0,0,-1);
 vec3 headPosition(0,0,4);
 
 vec3 wandDirection(0,0,-1);
-vec3 wandPosition(1,0,3);
+vec3 wandPosition(0.2,0,3);
 bool wandButtons[6] = {false,false,false,false,false,false};
 
 u32 milkywayTexture = 0;
@@ -91,6 +93,24 @@ int main( int argc, char* argv[] )
 	exit( EXIT_SUCCESS );
 }
 
+f32 intersectSphere(vec3 sp, f32 radius)
+{
+    vec3 wd = glm::normalize(wandDirection);
+    vec3 wp = wandPosition;
+    vec3 v = sp - wp;
+
+    f32 t = glm::dot(v,wd);
+
+    vec3 li = wp + wd*t;
+
+    vec3 dv = sp - li;
+
+    if(glm::dot(dv,dv) < radius*radius)
+        return t;
+    else
+        return MAXFLOAT;
+}
+
 void myInitOGLFun()
 {
     glEnable(GL_DEPTH_TEST);
@@ -152,7 +172,17 @@ void myPreSyncFun()
             }
 
             if(mouseDown[MOUSELEFT])
-                moveSpeed = glm::abs(amount.y) > deadzone ? amount.y-glm::sign(amount.y)*deadzone : 0.0f;
+            {
+                if(accelerate)
+                {
+                    static f32 acc = 0;
+                    acc += glm::abs(amount.y) > deadzone ? amount.y-glm::sign(amount.y)*deadzone : 0.0f;
+                    acc *= 0.1f;
+                    moveSpeed += acc;
+                }
+                else
+                    moveSpeed = glm::abs(amount.y) > deadzone ? amount.y-glm::sign(amount.y)*deadzone : 0.0f;
+            }
             else
                 moveSpeed = 0.0f;
 
@@ -181,6 +211,8 @@ void myPreSyncFun()
         #else
             /** Wand! **/
         #endif
+
+
 
         /** modify chosenEntity with modifiers **/
         if(chosenEntity)
@@ -237,6 +269,9 @@ void drawText()
 
     Freetype::print(sgct::FontManager::Instance()->GetFont( "SGCTFont", 10 ), 10.0f, 46.0f,
         "MousePos: %i, %i", mousePosition.x, mousePosition.y);
+
+    Freetype::print(sgct::FontManager::Instance()->GetFont( "SGCTFont", 10 ), 10.0f, 58.0f,
+        "TranslateMode: %s", (accelerate == true) ? "Acceleration" : "Velocity");
 }
 
 void myDrawFun()
@@ -308,27 +343,60 @@ void keyCallback(int key, int action)
 
             case '1':
                 if(action == GLFW_PRESS)
-                chosenEntity = &moon;
+                    chosenEntity = &moon;
                 break;
 
     		case '2':
                 if(action == GLFW_PRESS)
-                chosenEntity = &earth;
+                    chosenEntity = &earth;
                 break;
 
             case '3':
                 if(action == GLFW_PRESS)
-                chosenEntity = &mars;
+                    chosenEntity = &mars;
                 break;
 
             case '0':
                 if(action == GLFW_PRESS)
-                chosenEntity = NULL;
+                    chosenEntity = NULL;
+                break;
+
+            case GLFW_KEY_LCTRL:
+                if(action == GLFW_PRESS)
+                    accelerate = !accelerate;
                 break;
 
             case GLFW_KEY_TAB:
                 if(action == GLFW_PRESS)
                     navigation = !navigation;
+                break;
+
+            case GLFW_KEY_ENTER:
+                if(action == GLFW_PRESS)
+                {
+                    f32 nearestHit = MAXFLOAT;
+
+                    f32 hit = intersectSphere(moon.getPosition(),moon.getScale());
+                    if(hit < nearestHit)
+                    {
+                        chosenEntity = &moon;
+                        nearestHit = hit;
+                    }
+
+                    hit = intersectSphere(earth.getPosition(),earth.getScale());
+                    if(hit < nearestHit)
+                    {
+                        chosenEntity = &earth;
+                        nearestHit = hit;
+                    }
+
+                    hit = intersectSphere(mars.getPosition(),mars.getScale());
+                    if(hit < nearestHit)
+                    {
+                        chosenEntity = &mars;
+                        nearestHit = hit;
+                    }
+                }
                 break;
 
             case 'W':
