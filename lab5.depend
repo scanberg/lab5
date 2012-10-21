@@ -98,7 +98,7 @@
 	"Types.h"
 	"Geometry.h"
 
-1350158680 source:c:\users\gaspachelor\documents\github\lab5\main.cpp
+1350808786 source:c:\users\gaspachelor\documents\github\lab5\main.cpp
 	"sgct.h"
 	<GL/glfw.h>
 	<glm/glm.hpp>
@@ -627,7 +627,488 @@
 	"ObjLoader.h"
 	"sgct.h"
 
-1350158679 c:\users\gaspachelor\documents\github\lab5\entity3d.h
+1350808880 c:\users\gaspachelor\documents\github\lab5\entity3d.h
 	"Types.h"
 	"DrawableObject.h"
+
+1350808874 source:c:\users\gaspachelor\documents\github\lab5\entity3d.cpp
+	"Entity3D.h"
+	"sgct.h"
+
+1339680948 c:\program files (x86)\sgct\sgct_0.9.5_x86\include\glm\glm.hpp
+	"core/_fixes.hpp"
+	<cmath>
+	<climits>
+	<cfloat>
+	<limits>
+	<cstdio>
+	"core/setup.hpp"
+	"./core/_detail.hpp"
+	"./core/type.hpp"
+	"./core/func_trigonometric.hpp"
+	"./core/func_exponential.hpp"
+	"./core/func_common.hpp"
+	"./core/func_packing.hpp"
+	"./core/func_geometric.hpp"
+	"./core/func_matrix.hpp"
+	"./core/func_vector_relational.hpp"
+	"./core/func_integer.hpp"
+	"./core/func_noise.hpp"
+	"./core/_swizzle.hpp"
+
+1339680948 c:\program files (x86)\sgct\sgct_0.9.5_x86\include\glm\core\_fixes.hpp
+	<cmath>
+
+1339680950 c:\program files (x86)\sgct\sgct_0.9.5_x86\include\glm\core\setup.hpp
+	<immintrin.h>
+	<pmmintrin.h>
+	<emmintrin.h>
+
+1339680948 c:\program files (x86)\sgct\sgct_0.9.5_x86\include\glm\core\_detail.hpp
+	"setup.hpp"
+	<cassert>
+	<cstdint>
+
+1339680948 c:\program files (x86)\sgct\sgct_0.9.5_x86\include\glm\core\type.hpp
+	"type_half.hpp"
+	"type_float.hpp"
+	"type_int.hpp"
+	"type_gentype.hpp"
+	"type_vec1.hpp"
+	"type_vec2.hpp"
+	"type_vec3.hpp"
+	"type_vec4.hpp"
+	"type_mat2x2.hpp"
+	"type_mat2x3.hpp"
+	"type_mat2x4.hpp"
+	"type_mat3x2.hpp"
+	"type_mat3x3.hpp"
+	"type_mat3x4.hpp"
+	"type_mat4x2.hpp"
+	"type_mat4x3.hpp"
+	"type_mat4x4.hpp"
+
+1339680948 c:\program files (x86)\sgct\sgct_0.9.5_x86\include\glm\core\type_half.hpp
+	<cstdlib>
+	"type_half.inl"
+
+1339680948 c:\program files (x86)\sgct\sgct_0.9.5_x86\include\glm\core\type_half.inl
+	"_detail.hpp"
+
+1339680950 c:\program files (x86)\sgct\sgct_0.9.5_x86\include\glm\core\type_float.hpp
+	"type_half.hpp"
+	"setup.hpp"
+
+1339680948 c:\program files (x86)\sgct\sgct_0.9.5_x86\include\glm\core\type_int.hpp
+	"setup.hpp"
+	"_detail.hpp"
+
+1339680950 c:\program files (x86)\sgct\sgct_0.9.5_x86\include\glm\core\type_gentype.hpp
+	"type_size.hpp"
+
+1339680948 c:\program files (x86)\sgct\sgct_0.9.5_x86\include\glm\core\type_size.hpp
+	<cstdlib>
+
+1339680948 c:\program files (x86)\sgct\sgct_0.9.5_x86\include\glm\core\type_vec1.hpp
+	"type_vec.hpp"
+	"type_float.hpp"
+	"type_int.hpp"
+	"type_size.hpp"
+	"_swizzle.hpp"
+	"type_vec1.inl"
+
+1339680948 c:\program files (x86)\sgct\sgct_0.9.5_x86\include\glm\core\type_vec.hpp
+	"type_gentype.hpp"
+
+1339680948 c:\program files (x86)\sgct\sgct_0.9.5_x86\include\glm\core\_swizzle.hpp
+	"_swizzle_func.hpp"
+
+1339680950 c:\program files (x86)\sgct\sgct_0.9.5_x86\include\glm\core\_swizzle_func.hpp
+
+1339680948 c:\program files (x86)\sgct\sgct_0.9.5_x86\include\glm\core\type_vec1.inl
+
+1339680948 c:\program files (x86)\sgct\sgct_0.9.5_x86\include\glm\core\type_vec2.hpp
+	"type_vec.hpp"
+	"type_float.hpp"
+	"type_int.hpp"
+	"type_size.hpp"
+	"_swizzle.hpp"
+	"type_vec2.inl"
+
+1339680948 c:\program files (x86)\sgct\sgct_0.9.5_x86\include\glm\core\type_vec2.inl
+
+1339680948 c:\program files (x86)\sgct\sgct_0.9.5_x86\include\glm\core\type_vec3.hpp
+	"type_vec.hpp"
+	"type_float.hpp"
+	"type_int.hpp"
+	"type_size.hpp"
+	"_swizzle.hpp"
+	"type_vec3.inl"
+
+1339680948 c:\program files (x86)\sgct\sgct_0.9.5_x86\include\glm\core\type_vec3.inl
+
+1339680948 c:\program files (x86)\sgct\sgct_0.9.5_x86\include\glm\core\type_vec4.hpp
+	"type_vec.hpp"
+	"type_float.hpp"
+	"type_int.hpp"
+	"type_size.hpp"
+	"_swizzle.hpp"
+	"type_vec4.inl"
+
+1339680948 c:\program files (x86)\sgct\sgct_0.9.5_x86\include\glm\core\type_vec4.inl
+
+1339680950 c:\program files (x86)\sgct\sgct_0.9.5_x86\include\glm\core\type_mat2x2.hpp
+	"type_mat.hpp"
+	"type_mat2x2.inl"
+
+1339680950 c:\program files (x86)\sgct\sgct_0.9.5_x86\include\glm\core\type_mat.hpp
+	"type_gentype.hpp"
+
+1339680948 c:\program files (x86)\sgct\sgct_0.9.5_x86\include\glm\core\type_mat2x2.inl
+
+1339680950 c:\program files (x86)\sgct\sgct_0.9.5_x86\include\glm\core\type_mat2x3.hpp
+	"type_mat.hpp"
+	"type_mat2x3.inl"
+
+1339680950 c:\program files (x86)\sgct\sgct_0.9.5_x86\include\glm\core\type_mat2x3.inl
+
+1339680950 c:\program files (x86)\sgct\sgct_0.9.5_x86\include\glm\core\type_mat2x4.hpp
+	"type_mat.hpp"
+	"type_mat2x4.inl"
+
+1339680950 c:\program files (x86)\sgct\sgct_0.9.5_x86\include\glm\core\type_mat2x4.inl
+
+1339680948 c:\program files (x86)\sgct\sgct_0.9.5_x86\include\glm\core\type_mat3x2.hpp
+	"type_mat.hpp"
+	"type_mat3x2.inl"
+
+1339680948 c:\program files (x86)\sgct\sgct_0.9.5_x86\include\glm\core\type_mat3x2.inl
+
+1339680948 c:\program files (x86)\sgct\sgct_0.9.5_x86\include\glm\core\type_mat3x3.hpp
+	"type_mat.hpp"
+	"type_mat3x3.inl"
+
+1339680948 c:\program files (x86)\sgct\sgct_0.9.5_x86\include\glm\core\type_mat3x3.inl
+
+1339680948 c:\program files (x86)\sgct\sgct_0.9.5_x86\include\glm\core\type_mat3x4.hpp
+	"type_mat.hpp"
+	"type_mat3x4.inl"
+
+1339680948 c:\program files (x86)\sgct\sgct_0.9.5_x86\include\glm\core\type_mat3x4.inl
+
+1339680950 c:\program files (x86)\sgct\sgct_0.9.5_x86\include\glm\core\type_mat4x2.hpp
+	"type_mat.hpp"
+	"type_mat4x2.inl"
+
+1339680950 c:\program files (x86)\sgct\sgct_0.9.5_x86\include\glm\core\type_mat4x2.inl
+
+1339680950 c:\program files (x86)\sgct\sgct_0.9.5_x86\include\glm\core\type_mat4x3.hpp
+	"type_mat.hpp"
+	"type_mat4x3.inl"
+
+1339680950 c:\program files (x86)\sgct\sgct_0.9.5_x86\include\glm\core\type_mat4x3.inl
+
+1339680950 c:\program files (x86)\sgct\sgct_0.9.5_x86\include\glm\core\type_mat4x4.hpp
+	"type_mat.hpp"
+	"type_mat4x4.inl"
+
+1339680950 c:\program files (x86)\sgct\sgct_0.9.5_x86\include\glm\core\type_mat4x4.inl
+
+1339680948 c:\program files (x86)\sgct\sgct_0.9.5_x86\include\glm\core\func_trigonometric.hpp
+	"func_trigonometric.inl"
+
+1339680948 c:\program files (x86)\sgct\sgct_0.9.5_x86\include\glm\core\func_trigonometric.inl
+	"_vectorize.hpp"
+
+1339680948 c:\program files (x86)\sgct\sgct_0.9.5_x86\include\glm\core\_vectorize.hpp
+
+1339680948 c:\program files (x86)\sgct\sgct_0.9.5_x86\include\glm\core\func_exponential.hpp
+	"func_exponential.inl"
+
+1339680948 c:\program files (x86)\sgct\sgct_0.9.5_x86\include\glm\core\func_exponential.inl
+	"_vectorize.hpp"
+
+1339680948 c:\program files (x86)\sgct\sgct_0.9.5_x86\include\glm\core\func_common.hpp
+	"_fixes.hpp"
+	"func_common.inl"
+
+1339680948 c:\program files (x86)\sgct\sgct_0.9.5_x86\include\glm\core\func_common.inl
+	"_vectorize.hpp"
+
+1339680948 c:\program files (x86)\sgct\sgct_0.9.5_x86\include\glm\core\func_packing.hpp
+	"func_packing.inl"
+
+1339680948 c:\program files (x86)\sgct\sgct_0.9.5_x86\include\glm\core\func_packing.inl
+
+1339680948 c:\program files (x86)\sgct\sgct_0.9.5_x86\include\glm\core\func_geometric.hpp
+	"func_geometric.inl"
+
+1339680950 c:\program files (x86)\sgct\sgct_0.9.5_x86\include\glm\core\func_geometric.inl
+	"_vectorize.hpp"
+
+1339680948 c:\program files (x86)\sgct\sgct_0.9.5_x86\include\glm\core\func_matrix.hpp
+	"func_matrix.inl"
+
+1339680948 c:\program files (x86)\sgct\sgct_0.9.5_x86\include\glm\core\func_matrix.inl
+	"_vectorize.hpp"
+
+1339680950 c:\program files (x86)\sgct\sgct_0.9.5_x86\include\glm\core\func_vector_relational.hpp
+	"_detail.hpp"
+	"func_vector_relational.inl"
+
+1339680950 c:\program files (x86)\sgct\sgct_0.9.5_x86\include\glm\core\func_vector_relational.inl
+
+1339680948 c:\program files (x86)\sgct\sgct_0.9.5_x86\include\glm\core\func_integer.hpp
+	"func_integer.inl"
+
+1339680948 c:\program files (x86)\sgct\sgct_0.9.5_x86\include\glm\core\func_integer.inl
+	"_vectorize.hpp"
+	<intrin.h>
+
+1339680948 c:\program files (x86)\sgct\sgct_0.9.5_x86\include\glm\core\func_noise.hpp
+	"func_noise.inl"
+
+1339680948 c:\program files (x86)\sgct\sgct_0.9.5_x86\include\glm\core\func_noise.inl
+
+1339680950 c:\program files (x86)\sgct\sgct_0.9.5_x86\include\glm\gtc\quaternion.hpp
+	"../glm.hpp"
+	"../gtc/half_float.hpp"
+	"quaternion.inl"
+
+1339680950 c:\program files (x86)\sgct\sgct_0.9.5_x86\include\glm\gtc\half_float.hpp
+	"../glm.hpp"
+	"half_float.inl"
+
+1339680950 c:\program files (x86)\sgct\sgct_0.9.5_x86\include\glm\gtc\half_float.inl
+
+1339680950 c:\program files (x86)\sgct\sgct_0.9.5_x86\include\glm\gtc\quaternion.inl
+	<limits>
+
+1339680950 c:\program files (x86)\sgct\sgct_0.9.5_x86\include\glm\gtc\type_ptr.hpp
+	"../glm.hpp"
+	"../gtc/half_float.hpp"
+	"../gtc/quaternion.hpp"
+	<cstring>
+	"type_ptr.inl"
+
+1339680950 c:\program files (x86)\sgct\sgct_0.9.5_x86\include\glm\gtc\type_ptr.inl
+
+1339680950 c:\program files (x86)\sgct\sgct_0.9.5_x86\include\glm\gtc\matrix_transform.hpp
+	"../glm.hpp"
+	"matrix_transform.inl"
+
+1339680950 c:\program files (x86)\sgct\sgct_0.9.5_x86\include\glm\gtc\matrix_transform.inl
+
+1339680946 c:\program files (x86)\sgct\sgct_0.9.5_x86\include\glm\gtx\euler_angles.hpp
+	"../glm.hpp"
+	"../gtc/half_float.hpp"
+	"euler_angles.inl"
+
+1339680946 c:\program files (x86)\sgct\sgct_0.9.5_x86\include\glm\gtx\euler_angles.inl
+
+1339680946 c:\program files (x86)\sgct\sgct_0.9.5_x86\include\glm\gtx\random.hpp
+	"../glm.hpp"
+	"../gtc/random.hpp"
+	"random.inl"
+
+1339680950 c:\program files (x86)\sgct\sgct_0.9.5_x86\include\glm\gtc\random.hpp
+	"../glm.hpp"
+	"../gtc/half_float.hpp"
+	"random.inl"
+
+1339680950 c:\program files (x86)\sgct\sgct_0.9.5_x86\include\glm\gtc\random.inl
+	<ctime>
+	<cassert>
+	"../core/_vectorize.hpp"
+
+1339680946 c:\program files (x86)\sgct\sgct_0.9.5_x86\include\glm\gtx\random.inl
+	<ctime>
+	<cassert>
+
+1342193064 c:\program files (x86)\sgct\sgct_0.9.5_x86\include\sgct.h
+	<windows.h>
+	<winsock2.h>
+	"sgct/ogl_headers.h"
+	"sgct/Engine.h"
+	"sgct/SharedData.h"
+	"sgct/TextureManager.h"
+	"sgct/FontManager.h"
+	"sgct/MessageHandler.h"
+	"sgct/ShaderManager.h"
+	"sgct/freetype.h"
+
+1342193064 c:\program files (x86)\sgct\sgct_0.9.5_x86\include\sgct\ogl_headers.h
+	<GL/glew.h>
+	<GL/wglew.h>
+	<OpenGL/glext.h>
+	<GL/glext.h>
+	<GL/glxew.h>
+	<GL/glfw.h>
+
+1344270212 c:\program files (x86)\sgct\sgct_0.9.5_x86\include\gl\glew.h
+	<stddef.h>
+	<inttypes.h>
+	<stdint.h>
+	<inttypes.h>
+	<OpenGL/glu.h>
+	<GL/glu.h>
+
+1344270212 c:\program files (x86)\sgct\sgct_0.9.5_x86\include\gl\wglew.h
+	<windows.h>
+
+1344270212 c:\program files (x86)\sgct\sgct_0.9.5_x86\include\gl\glxew.h
+	<X11/Xlib.h>
+	<X11/Xutil.h>
+	<X11/Xmd.h>
+	<GL/glew.h>
+
+1334842228 c:\program files (x86)\sgct\sgct_0.9.5_x86\include\gl\glfw.h
+	<OpenGL/gl3.h>
+	<OpenGL/gl.h>
+	<OpenGL/glu.h>
+	<GL3/gl3.h>
+	<GL/gl.h>
+	<GL/glu.h>
+
+1349814676 c:\program files (x86)\sgct\sgct_0.9.5_x86\include\sgct\engine.h
+	"ClusterManager.h"
+	"NetworkManager.h"
+	"Statistics.h"
+	"ReadConfig.h"
+
+1349814676 c:\program files (x86)\sgct\sgct_0.9.5_x86\include\sgct\clustermanager.h
+	"SGCTNode.h"
+	"SGCTUser.h"
+	"SGCTTrackingManager.h"
+	<string>
+
+1342193064 c:\program files (x86)\sgct\sgct_0.9.5_x86\include\sgct\sgctnode.h
+	"Viewport.h"
+	"SGCTWindow.h"
+	<string>
+	<vector>
+
+1342711432 c:\program files (x86)\sgct\sgct_0.9.5_x86\include\sgct\viewport.h
+	<glm/glm.hpp>
+	"Frustum.h"
+	"CorrectionMesh.h"
+	<stddef.h>
+
+1342193064 c:\program files (x86)\sgct\sgct_0.9.5_x86\include\sgct\frustum.h
+
+1342921374 c:\program files (x86)\sgct\sgct_0.9.5_x86\include\sgct\correctionmesh.h
+
+1342193064 c:\program files (x86)\sgct\sgct_0.9.5_x86\include\sgct\sgctwindow.h
+
+1349819758 c:\program files (x86)\sgct\sgct_0.9.5_x86\include\sgct\sgctuser.h
+	<glm/glm.hpp>
+	<glm/gtc/type_ptr.hpp>
+	<glm/gtc/matrix_transform.hpp>
+	<string>
+	"Frustum.h"
+
+1349819758 c:\program files (x86)\sgct\sgct_0.9.5_x86\include\sgct\sgcttrackingmanager.h
+	<vector>
+	<set>
+	"SGCTTracker.h"
+
+1349822410 c:\program files (x86)\sgct\sgct_0.9.5_x86\include\sgct\sgcttracker.h
+	<vector>
+	"SGCTTrackingDevice.h"
+
+1349822410 c:\program files (x86)\sgct\sgct_0.9.5_x86\include\sgct\sgcttrackingdevice.h
+	<string>
+	<glm/gtc/matrix_transform.hpp>
+	<glm/gtc/quaternion.hpp>
+	<glm/gtx/quaternion.hpp>
+
+1339680946 c:\program files (x86)\sgct\sgct_0.9.5_x86\include\glm\gtx\quaternion.hpp
+	"../glm.hpp"
+	"../gtc/quaternion.hpp"
+	"quaternion.inl"
+
+1339680946 c:\program files (x86)\sgct\sgct_0.9.5_x86\include\glm\gtx\quaternion.inl
+	<limits>
+
+1342193064 c:\program files (x86)\sgct\sgct_0.9.5_x86\include\sgct\networkmanager.h
+	"SGCTNetwork.h"
+	<vector>
+	<string>
+
+1342193064 c:\program files (x86)\sgct\sgct_0.9.5_x86\include\sgct\sgctnetwork.h
+	<string>
+	<vector>
+	<functional>
+	<tr1/functional>
+
+1342871042 c:\program files (x86)\sgct\sgct_0.9.5_x86\include\sgct\statistics.h
+
+1347308966 c:\program files (x86)\sgct\sgct_0.9.5_x86\include\sgct\readconfig.h
+	<string>
+	<vector>
+	<glm/glm.hpp>
+
+1342193064 c:\program files (x86)\sgct\sgct_0.9.5_x86\include\sgct\shareddata.h
+	<stddef.h>
+	<vector>
+	<string>
+
+1342193064 c:\program files (x86)\sgct\sgct_0.9.5_x86\include\sgct\texturemanager.h
+	<vector>
+	<string>
+
+1342193064 c:\program files (x86)\sgct\sgct_0.9.5_x86\include\sgct\fontmanager.h
+	<string>
+	<set>
+	<map>
+	<ft2build.h>
+	"Font.h"
+
+1339680956 c:\program files (x86)\sgct\sgct_0.9.5_x86\include\ft2build.h
+	<freetype/config/ftheader.h>
+
+1339680952 c:\program files (x86)\sgct\sgct_0.9.5_x86\include\freetype\config\ftheader.h
+
+1342193064 c:\program files (x86)\sgct\sgct_0.9.5_x86\include\sgct\font.h
+	<freetype/ftglyph.h>
+	<vector>
+	<string>
+
+1339680950 c:\program files (x86)\sgct\sgct_0.9.5_x86\include\freetype\ftglyph.h
+	<ft2build.h>
+
+1342193064 c:\program files (x86)\sgct\sgct_0.9.5_x86\include\sgct\messagehandler.h
+	<stddef.h>
+	<stdarg.h>
+	<vector>
+
+1342193064 c:\program files (x86)\sgct\sgct_0.9.5_x86\include\sgct\shadermanager.h
+	<string>
+	<vector>
+	"ShaderProgram.h"
+
+1342193064 c:\program files (x86)\sgct\sgct_0.9.5_x86\include\sgct\shaderprogram.h
+	"Shader.h"
+
+1342193064 c:\program files (x86)\sgct\sgct_0.9.5_x86\include\sgct\shader.h
+	<string>
+
+1342193064 c:\program files (x86)\sgct\sgct_0.9.5_x86\include\sgct\freetype.h
+	"ft2build.h"
+	"freetype/freetype.h"
+	"freetype/ftglyph.h"
+	"freetype/ftoutln.h"
+	"freetype/fttrigon.h"
+	"Font.h"
+	<string>
+	<vector>
+	<stdexcept>
+
+1339680950 c:\program files (x86)\sgct\sgct_0.9.5_x86\include\freetype\freetype.h
+	<ft2build.h>
+
+1339680950 c:\program files (x86)\sgct\sgct_0.9.5_x86\include\freetype\ftoutln.h
+	<ft2build.h>
+
+1339680950 c:\program files (x86)\sgct\sgct_0.9.5_x86\include\freetype\fttrigon.h
 

@@ -5,6 +5,8 @@
 #include "Types.h"
 #include "DrawableObject.h"
 
+#define TEXTUREID_UNUSED 0
+
 class Entity3D
 {
 protected:
@@ -18,7 +20,7 @@ protected:
     DrawableObject *drawObj;
     u32 textureID;
 public:
-    Entity3D() : scale(1.0f), color(1.0f), parent(NULL), drawObj(NULL) {}
+    Entity3D() : scale(1.0f), color(1.0f), parent(NULL), drawObj(NULL), textureID(TEXTUREID_UNUSED) {}
     virtual ~Entity3D() {}
 
     void setPosition(f32 x, f32 y, f32 z) { position = vec3(x,y,z); }

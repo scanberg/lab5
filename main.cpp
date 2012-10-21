@@ -9,13 +9,15 @@
 #include "DrawableObject.h"
 #include "Entity3D.h"
 
-#define MOUSE
+#define INDEX_WAND 0
+
+//#define MOUSE
 
 sgct::Engine * gEngine;
 
 DrawableObject * sphere = NULL;
 
-Entity3D earth, moon, mars, milkyway;
+Entity3D earth, moon, mars, milkyway, wand;
 
 enum navigationmode { GAZE=0, CROSSHAIR};
 
@@ -144,6 +146,10 @@ void myInitOGLFun()
     milkyway.setPosition(0,0,0);
     milkyway.setScale(10.0);
 	milkyway.setTexture( sgct::TextureManager::Instance()->getTextureByIndex(milkywayTexture) );
+
+	wand.setDrawable(sphere);
+	wand.setPosition(0,0.6,0);
+	wand.setScale(0.05);
 }
 
 void myPreSyncFun()
@@ -209,6 +215,13 @@ void myPreSyncFun()
                 }
             }
         #else
+            //pointer to a device
+            sgct::SGCTTrackingDevice * devicePtr = NULL;
+            //pointer to a tracker
+            sgct::SGCTTracker * trackerPtr = NULL;
+            trackerPtr = sgct::Engine::getTrackingManager()->getTrackerPtr(i);
+            wand.setPosition();
+            sgct::Engine::getTrackingManager()->getHeadDevicePtr()->getPosition();
             /** Wand! **/
         #endif
 
@@ -298,6 +311,8 @@ void myDrawFun()
 
     glPopMatrix();
 
+    wand.draw();
+
     glColor3f(1.0f,1.0f,1.0f);
 
     drawText();
@@ -314,6 +329,7 @@ void myEncodeFun()
     earth.writeData();
     moon.writeData();
     mars.writeData();
+    wand.writeData();
 }
 
 void myDecodeFun()
@@ -327,7 +343,7 @@ void myDecodeFun()
     earth.getData();
     moon.getData();
     mars.getData();
-
+    wand.getData();
 }
 
 void keyCallback(int key, int action)
