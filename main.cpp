@@ -9,9 +9,10 @@
 #include "DrawableObject.h"
 #include "Entity3D.h"
 
-#define INDEX_WAND 0
+#define MOUSE
+#define WAND
 
-//#define MOUSE
+#define WANDBUTTONS 6
 
 sgct::Engine * gEngine;
 
@@ -28,11 +29,19 @@ u8 navigation = GAZE;
 bool accelerate = false;
 
 vec3 headDirection(0,0,-1);
+vec3 headOrientation(0,0,0);
 vec3 headPosition(0,0,4);
 
 vec3 wandDirection(0,0,-1);
-vec3 wandPosition(0.2,0,3);
-bool wandButtons[6] = {false,false,false,false,false,false};
+bool wandButtons[WANDBUTTONS] = {false,false,false,false,false,false};
+enum buttons
+{
+    BUTTON_MOVE = 0,
+    BUTTON_TOGGLE,
+    BUTTON_TRANSLATE,
+    BUTTON_ROTATE,
+    BUTTON_SCALE
+};
 
 u32 milkywayTexture = 0;
 u32 earthTexture = 0;
@@ -98,7 +107,7 @@ int main( int argc, char* argv[] )
 f32 intersectSphere(vec3 sp, f32 radius)
 {
     vec3 wd = glm::normalize(wandDirection);
-    vec3 wp = wandPosition;
+    vec3 wp = wand.getPosition();
     vec3 v = sp - wp;
 
     f32 t = glm::dot(v,wd);
@@ -148,8 +157,9 @@ void myInitOGLFun()
 	milkyway.setTexture( sgct::TextureManager::Instance()->getTextureByIndex(milkywayTexture) );
 
 	wand.setDrawable(sphere);
-	wand.setPosition(0,0.6,0);
-	wand.setScale(0.05);
+	wand.setPosition(0.2,0,3);
+	wand.setOrientationXYZ(0,90,0);
+	wand.setScale(0.025);
 }
 
 void myPreSyncFun()
@@ -164,6 +174,7 @@ void myPreSyncFun()
         f32 scaleMod = 0.0f;
 
         #ifdef MOUSE
+        {
             sgct::Engine::getMousePos( &mousePosition.x, &mousePosition.y );
 
             f32 deadzone = 0.009f;
@@ -210,22 +221,86 @@ void myPreSyncFun()
                         break;
 
                     case SCALE:
-                        scaleMod = (glm::abs(amount.y) > deadzone ? amount.y-glm::sign(amount.y)*deadzone : 0.0f)*5.0f;
+                        scaleMod = (glm::abs(amount.y) > deadzone ? amount.y-glm::sign(amount.y)*deadzone : 0.0f)*3.0f;
                         break;
                 }
             }
-        #else
-            //pointer to a device
-            sgct::SGCTTrackingDevice * devicePtr = NULL;
-            //pointer to a tracker
-            sgct::SGCTTracker * trackerPtr = NULL;
-            trackerPtr = sgct::Engine::getTrackingManager()->getTrackerPtr(i);
-            wand.setPosition();
-            sgct::Engine::getTrackingManager()->getHeadDevicePtr()->getPosition();
-            /** Wand! **/
+        }
         #endif
+        #ifdef WAND
+        {
+            for(size_t i = 0; i < sgct::Engine::getTrackingManager()->getNumberOfTrackers(); i++)
+            {
+                sgct::SGCTTracker *trackerPtr = sgct::Engine::getTrackingManager()->getTrackerPtr(i);
+                for(size_t j = 0; j < trackerPtr->getNumberOfDevices(); j++)
+                {
+                    sgct::SGCTTrackingDevice *devicePtr = trackerPtr->getDevicePtr(j);
 
+                    if(devicePtr == sgct::Engine::getTrackingManager()->getHeadDevicePtr())
+                    {
+                        headPosition = vec3(devicePtr->getPosition());
+                        headOrientation = vec3(devicePtr->getEulerAngles());
+                        headDirection = mat3(glm::yawPitchRoll(headOrientation.y,headOrientation.x,headOrientation.z))*vec3(0,0,-1);
+                    }
+                    else
+                    {
+                        if( devicePtr->hasSensor() )
+                        {
+                            wand.setPosition(vec3(devicePtr->getPosition()));
+                            wand.setOrientationXYZ(vec3(devicePtr->getEulerAngles()));
+                            wandDirection = mat3(glm::yawPitchRoll(wand.getOrientationXYZ().y,
+                                                                   wand.getOrientationXYZ().x,
+                                                                   wand.getOrientationXYZ().z))*vec3(0,0,-1);
+                        }
+                        if( devicePtr->hasButtons() )
+                        {
+                            for(size_t k=0; k < WANDBUTTONS; k++)
+                            {
+                                wandButtons[k] = devicePtr->getButton(k);
+                            }
+                        }
+                    }
+                }
+            }
 
+            f32 deadzone = 0.009f;
+            static vec3 startPosition;
+            vec3 amount;
+
+            if(wandButtons[BUTTON_TRANSLATE] || wandButtons[BUTTON_ROTATE] || wandButtons[BUTTON_SCALE])
+                amount = wand.getPosition() - startPosition;
+            else
+                startPosition = wand.getPosition();
+
+            if(wandButtons[BUTTON_TRANSLATE])
+            {
+                translateMod = -amount;
+            }
+            if(wandButtons[BUTTON_ROTATE])
+            {
+                rotateMod = -amount;
+            }
+            if(wandButtons[BUTTON_SCALE])
+            {
+                f32 len = glm::length(amount);
+                scaleMod = (len > deadzone ? (len-deadzone) : 0.0f)*0.1f;
+            }
+
+            if(wandButtons[BUTTON_MOVE])
+            {
+                f32 len = glm::length(amount);
+                if(accelerate)
+                {
+                    static f32 acc = 0;
+                    acc += (len > deadzone ? (len-deadzone) : 0.0f) * 0.1f;
+                    //acc *= 0.1f;
+                    moveSpeed += acc;
+                }
+                else
+                    moveSpeed = (len > deadzone ? (len-deadzone) : 0.0f) * 1.0f;
+            }
+        }
+        #endif
 
         /** modify chosenEntity with modifiers **/
         if(chosenEntity)
@@ -240,7 +315,7 @@ void myPreSyncFun()
         if(navigation == GAZE)
             translation = glm::normalize(headDirection);
         else
-            translation = glm::normalize(wandPosition - headPosition);
+            translation = glm::normalize(wand.getPosition() - headPosition);
 
         transform = glm::translate( transform, -translation*moveSpeed );
 
@@ -311,7 +386,20 @@ void myDrawFun()
 
     glPopMatrix();
 
+    /** WAND BODY **/
+
     wand.draw();
+
+    /** WAND DIRECTION **/
+    glColor3f(1.0f,1.0f,0.0f);
+    glPushMatrix();
+        glLineWidth(2.0);
+        glMultMatrixf(glm::value_ptr(wand.getLocalMatrix()));
+        glBegin(GL_LINES);
+            glVertex3f(0,0,0);
+            glVertex3f(0,0,-20);
+        glEnd();
+    glPopMatrix();
 
     glColor3f(1.0f,1.0f,1.0f);
 

@@ -127,11 +127,12 @@
 	<vector>
 	"Types.h"
 
-1349789857 c:\users\gurido\documents\github\lab5\types.h
+1350839108 c:\users\gurido\documents\github\lab5\types.h
 	<glm/glm.hpp>
 	<glm/gtc/quaternion.hpp>
 	<glm/gtc/type_ptr.hpp>
 	<glm/gtc/matrix_transform.hpp>
+	<glm/gtx/euler_angles.hpp>
 	<glm/gtx/random.hpp>
 	<omp.h>
 
@@ -1111,4 +1112,12 @@
 	<ft2build.h>
 
 1339680950 c:\program files (x86)\sgct\sgct_0.9.5_x86\include\freetype\fttrigon.h
+
+1350839108 source:c:\users\gurido\documents\github\lab5\entity3d.cpp
+	"Entity3D.h"
+	"sgct.h"
+
+1350846070 c:\users\gurido\documents\github\lab5\entity3d.h
+	"Types.h"
+	"DrawableObject.h"
 

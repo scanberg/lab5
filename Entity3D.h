@@ -24,7 +24,9 @@ public:
     virtual ~Entity3D() {}
 
     void setPosition(f32 x, f32 y, f32 z) { position = vec3(x,y,z); }
+    void setPosition(const vec3 &pos) { position = pos; }
     void setOrientationXYZ(f32 x, f32 y, f32 z) { orientation = vec3(x,y,z); }
+    void setOrientationXYZ(const vec3 &ori) { orientation = ori; }
     void setScale(f32 s) { scale = s; }
 
     void setColor(f32 r, f32 g, f32 b) { color = vec3(r,g,b); }
