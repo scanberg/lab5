@@ -52,7 +52,7 @@
 	"DrawableObject.h"
 	"ObjLoader.h"
 
-1348319856 source:c:\users\gaspachelor\documents\github\lab5\objloader.cpp
+1350158679 source:c:\users\gaspachelor\documents\github\lab5\objloader.cpp
 	"ObjLoader.h"
 
 1349169903 c:\users\gaspachelor\documents\github\lab5\objloader.h
@@ -71,10 +71,12 @@
 	<vector>
 	"Types.h"
 
-1349339732 c:\users\gaspachelor\documents\github\lab5\types.h
+1350158679 c:\users\gaspachelor\documents\github\lab5\types.h
 	<glm/glm.hpp>
 	<glm/gtc/quaternion.hpp>
 	<glm/gtc/type_ptr.hpp>
+	<glm/gtc/matrix_transform.hpp>
+	<glm/gtx/euler_angles.hpp>
 	<glm/gtx/random.hpp>
 	<omp.h>
 
@@ -86,22 +88,25 @@
 1348319856 source:c:\users\gaspachelor\documents\github\lab5\tokenizer.cpp
 	"Tokenizer.h"
 
-1349177650 source:c:\users\gaspachelor\documents\github\lab5\drawableobject.cpp
+1349339758 source:c:\users\gaspachelor\documents\github\lab5\drawableobject.cpp
 	"DrawableObject.h"
 	"ObjLoader.h"
+	"sgct.h"
 
 1349174981 c:\users\gaspachelor\documents\github\lab5\drawableobject.h
 	<vector>
 	"Types.h"
 	"Geometry.h"
 
-1349182606 source:c:\users\gaspachelor\documents\github\lab5\main.cpp
+1350158680 source:c:\users\gaspachelor\documents\github\lab5\main.cpp
 	"sgct.h"
 	<GL/glfw.h>
 	<glm/glm.hpp>
 	<glm/gtc/type_ptr.hpp>
 	<glm/gtc/matrix_transform.hpp>
+	"Types.h"
 	"DrawableObject.h"
+	"Entity3D.h"
 
 1349807702 source:c:\users\gurido\documents\github\lab5\objloader.cpp
 	"ObjLoader.h"
@@ -621,4 +626,8 @@
 	"DrawableObject.h"
 	"ObjLoader.h"
 	"sgct.h"
+
+1350158679 c:\users\gaspachelor\documents\github\lab5\entity3d.h
+	"Types.h"
+	"DrawableObject.h"
 

@@ -47,6 +47,7 @@
 		</Linker>
 		<Unit filename="DrawableObject.cpp" />
 		<Unit filename="DrawableObject.h" />
+		<Unit filename="Entity3D.cpp" />
 		<Unit filename="Entity3D.h" />
 		<Unit filename="Geometry.h" />
 		<Unit filename="ObjLoader.cpp" />
