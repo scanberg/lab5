@@ -34,7 +34,11 @@
 			<Add option="-Wall" />
 			<Add option="-DGLEW_STATIC" />
 			<Add option="-D__WIN32__" />
+<<<<<<< HEAD
 			<Add directory="S:\SGCT\SGCT-0.9.5\include" />
+=======
+			<Add directory="C:\Program Files (x86)\SGCT\SGCT_0.9.5_x86\include" />
+>>>>>>> 0d1aa0ef94640f813a5cec7dca41e50172e909e9
 		</Compiler>
 		<Linker>
 			<Add option="-static-libgcc" />
@@ -43,7 +47,11 @@
 			<Add library="opengl32" />
 			<Add library="glu32" />
 			<Add library="ws2_32" />
+<<<<<<< HEAD
 			<Add directory="S:\SGCT\SGCT-0.9.5\lib\mingw" />
+=======
+			<Add directory="C:\Program Files (x86)\SGCT\SGCT_0.9.5_x86\lib\mingw" />
+>>>>>>> 0d1aa0ef94640f813a5cec7dca41e50172e909e9
 		</Linker>
 		<Unit filename="DrawableObject.cpp" />
 		<Unit filename="DrawableObject.h" />

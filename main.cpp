@@ -48,6 +48,7 @@ mat4 wandMatrix;
 #define BUTTON_MOVE 4
 #define BUTTON_SELECT 5
 
+
 u32 milkywayTexture = 0;
 u32 earthTexture = 0;
 u32 marsTexture = 0;
@@ -123,7 +124,7 @@ f32 intersectSphere(vec3 sp, f32 radius)
 
     vec3 li = wp + wd*t;
 
-    vec3 dv = sp - li;§
+    vec3 dv = sp - li;
 
     if(glm::dot(dv,dv) < radius*radius)
         return t;
@@ -335,7 +336,6 @@ void myPreSyncFun()
                 else
                 {
                     moveSpeed = amount.z * .5f;
-                    printf("ms: %f \n", moveSpeed);
                 }
             }
             else
@@ -348,7 +348,6 @@ void myPreSyncFun()
             {
                 getSelectedEntity();
             }
-
         }
         #endif
 
