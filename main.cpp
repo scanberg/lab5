@@ -9,13 +9,16 @@
 #include "DrawableObject.h"
 #include "Entity3D.h"
 
-#define MOUSE
+//#define MOUSE
+#define WAND
+
+#define WANDBUTTONS 6
 
 sgct::Engine * gEngine;
 
 DrawableObject * sphere = NULL;
 
-Entity3D earth, moon, mars, milkyway;
+Entity3D earth, moon, mars, milkyway, wand;
 
 enum navigationmode { GAZE=0, CROSSHAIR};
 
@@ -26,11 +29,24 @@ u8 navigation = GAZE;
 bool accelerate = false;
 
 vec3 headDirection(0,0,-1);
+vec3 headOrientation(0,0,0);
 vec3 headPosition(0,0,4);
 
 vec3 wandDirection(0,0,-1);
-vec3 wandPosition(0.2,0,3);
-bool wandButtons[6] = {false,false,false,false,false,false};
+bool wandButtons[WANDBUTTONS] = {false,false,false,false,false,false};
+
+mat4 wandMatrix;
+/**
+0,1,2,3 front,
+4 analogue
+5 back/shooot?
+**/
+
+#define BUTTON_ROTATE 0
+#define BUTTON_TRANSLATE 1
+#define BUTTON_SCALE 2
+#define BUTTON_MOVE 4
+#define BUTTON_SELECT 5
 
 u32 milkywayTexture = 0;
 u32 earthTexture = 0;
@@ -60,6 +76,9 @@ void myDecodeFun();
 //input callbacks
 void keyCallback(int key, int action);
 void mouseButtonCallback(int button, int action);
+
+//helper function
+void getSelectedEntity();
 
 int main( int argc, char* argv[] )
 {
@@ -96,19 +115,46 @@ int main( int argc, char* argv[] )
 f32 intersectSphere(vec3 sp, f32 radius)
 {
     vec3 wd = glm::normalize(wandDirection);
-    vec3 wp = wandPosition;
-    vec3 v = sp - wp;
+    vec3 wp = wand.getPosition();
+
+    vec3 v = mat3(transform)*sp - wp;
 
     f32 t = glm::dot(v,wd);
 
     vec3 li = wp + wd*t;
 
-    vec3 dv = sp - li;
+    vec3 dv = sp - li;§
 
     if(glm::dot(dv,dv) < radius*radius)
         return t;
     else
         return MAXFLOAT;
+}
+
+void getSelectedEntity()
+{
+    f32 nearestHit = MAXFLOAT;
+
+    f32 hit = intersectSphere(moon.getPosition(),moon.getScale());
+    if(hit < nearestHit)
+    {
+        chosenEntity = &moon;
+        nearestHit = hit;
+    }
+
+    hit = intersectSphere(earth.getPosition(),earth.getScale());
+    if(hit < nearestHit)
+    {
+        chosenEntity = &earth;
+        nearestHit = hit;
+    }
+
+    hit = intersectSphere(mars.getPosition(),mars.getScale());
+    if(hit < nearestHit)
+    {
+        chosenEntity = &mars;
+        nearestHit = hit;
+    }
 }
 
 void myInitOGLFun()
@@ -128,22 +174,28 @@ void myInitOGLFun()
 
     earth.setDrawable(sphere);
     earth.setPosition(0,0,0);
+    earth.setScale(0.3);
 	earth.setTexture( sgct::TextureManager::Instance()->getTextureByIndex(earthTexture) );
 
     moon.setDrawable(sphere);
-    moon.setPosition(-1.2,0,0);
-    moon.setScale(0.26);
+    moon.setPosition(-0.5,0,0);
+    moon.setScale(0.075);
 	moon.setTexture( sgct::TextureManager::Instance()->getTextureByIndex(moonTexture) );
 
     mars.setDrawable(sphere);
-    mars.setPosition(1.2,0,0);
-    mars.setScale(0.5);
+    mars.setPosition(0.5,0,0);
+    mars.setScale(0.15);
 	mars.setTexture( sgct::TextureManager::Instance()->getTextureByIndex(marsTexture) );
 
     milkyway.setDrawable(sphere);
     milkyway.setPosition(0,0,0);
     milkyway.setScale(10.0);
 	milkyway.setTexture( sgct::TextureManager::Instance()->getTextureByIndex(milkywayTexture) );
+
+	wand.setDrawable(sphere);
+	wand.setPosition(0.2,0,3);
+	wand.setOrientationXYZ(0,90,0);
+	wand.setScale(0.025);
 }
 
 void myPreSyncFun()
@@ -158,6 +210,7 @@ void myPreSyncFun()
         f32 scaleMod = 0.0f;
 
         #ifdef MOUSE
+        {
             sgct::Engine::getMousePos( &mousePosition.x, &mousePosition.y );
 
             f32 deadzone = 0.009f;
@@ -204,15 +257,100 @@ void myPreSyncFun()
                         break;
 
                     case SCALE:
-                        scaleMod = (glm::abs(amount.y) > deadzone ? amount.y-glm::sign(amount.y)*deadzone : 0.0f)*5.0f;
+                        scaleMod = (glm::abs(amount.y) > deadzone ? amount.y-glm::sign(amount.y)*deadzone : 0.0f)*3.0f;
                         break;
                 }
             }
-        #else
-            /** Wand! **/
+        }
         #endif
+        #ifdef WAND
+        {
+            for(size_t i = 0; i < sgct::Engine::getTrackingManager()->getNumberOfTrackers(); i++)
+            {
+                sgct::SGCTTracker *trackerPtr = sgct::Engine::getTrackingManager()->getTrackerPtr(i);
+                for(size_t j = 0; j < trackerPtr->getNumberOfDevices(); j++)
+                {
+                    sgct::SGCTTrackingDevice *devicePtr = trackerPtr->getDevicePtr(j);
 
+                    if(devicePtr == sgct::Engine::getTrackingManager()->getHeadDevicePtr())
+                    {
+                        headPosition = vec3(devicePtr->getPosition());
+                        headOrientation = vec3(devicePtr->getEulerAngles()) * PI/180.0f;
+                        headDirection = mat3(glm::yawPitchRoll(headOrientation.y,headOrientation.x,headOrientation.z))*vec3(0,0,-1);
+                    }
+                    else
+                    {
+                        if( devicePtr->hasSensor() )
+                        {
+                            wand.setPosition(vec3(devicePtr->getPosition()));
+                            vec3 angles = vec3(devicePtr->getEulerAngles()) * PI/180.0f;
+                            wand.setOrientationXYZ(angles.x,angles.y,angles.z);
+                            wandMatrix = mat4(devicePtr->getTransformMat());
 
+                            wandDirection = mat3(wandMatrix) * vec3(0,0,-1);
+                        }
+                        if( devicePtr->hasButtons() )
+                        {
+                            for(size_t k=0; k < WANDBUTTONS; k++)
+                            {
+                                wandButtons[k] = devicePtr->getButton(k);
+                            }
+                        }
+                    }
+                }
+            }
+
+            f32 deadzone = 0.01f;
+            static vec3 startPosition;
+            vec3 amount;
+
+            if(wandButtons[BUTTON_TRANSLATE] || wandButtons[BUTTON_ROTATE] || wandButtons[BUTTON_SCALE] || wandButtons[BUTTON_MOVE])
+                amount = wand.getPosition() - startPosition;
+            else
+                startPosition = wand.getPosition();
+
+            if(wandButtons[BUTTON_TRANSLATE])
+            {
+                translateMod = amount;
+            }
+            if(wandButtons[BUTTON_ROTATE])
+            {
+                rotateMod = amount;
+            }
+            if(wandButtons[BUTTON_SCALE])
+            {
+                scaleMod = (glm::abs(amount.y) > deadzone ? amount.y - glm::sign(amount.y)*deadzone : 0.0f)*0.5f;
+            }
+
+            static f32 acc = 0;
+
+            if(wandButtons[BUTTON_MOVE])
+            {
+                if(accelerate)
+                {
+                    acc += (glm::abs(amount.z) > deadzone ? amount.z - glm::sign(amount.z)*deadzone : 0.0f)*0.001f;
+                    //acc *= 0.1f;
+                    moveSpeed += acc;
+                }
+                else
+                {
+                    moveSpeed = amount.z * .5f;
+                    printf("ms: %f \n", moveSpeed);
+                }
+            }
+            else
+            {
+                moveSpeed = 0.0f;
+                acc = 0;
+            }
+
+            if(wandButtons[BUTTON_SELECT])
+            {
+                getSelectedEntity();
+            }
+
+        }
+        #endif
 
         /** modify chosenEntity with modifiers **/
         if(chosenEntity)
@@ -227,7 +365,7 @@ void myPreSyncFun()
         if(navigation == GAZE)
             translation = glm::normalize(headDirection);
         else
-            translation = glm::normalize(wandPosition - headPosition);
+            translation = glm::normalize(wand.getPosition() - headPosition);
 
         transform = glm::translate( transform, -translation*moveSpeed );
 
@@ -272,6 +410,12 @@ void drawText()
 
     Freetype::print(sgct::FontManager::Instance()->GetFont( "SGCTFont", 10 ), 10.0f, 58.0f,
         "TranslateMode: %s", (accelerate == true) ? "Acceleration" : "Velocity");
+
+    for(int i=0; i<6; ++i)
+    {
+        Freetype::print(sgct::FontManager::Instance()->GetFont( "SGCTFont", 10 ), 10.0f, 70.0f+12.0f*i,
+            "Button%i: %i", i, wandButtons[i]);
+    }
 }
 
 void myDrawFun()
@@ -298,6 +442,21 @@ void myDrawFun()
 
     glPopMatrix();
 
+    /** WAND BODY **/
+
+    wand.draw();
+
+    /** WAND DIRECTION **/
+    glColor3f(1.0f,1.0f,0.0f);
+    glPushMatrix();
+        glLineWidth(2.0);
+        glMultMatrixf(glm::value_ptr(wandMatrix));
+        glBegin(GL_LINES);
+            glVertex3f(0,0,0);
+            glVertex3f(0,0,-20);
+        glEnd();
+    glPopMatrix();
+
     glColor3f(1.0f,1.0f,1.0f);
 
     drawText();
@@ -314,6 +473,7 @@ void myEncodeFun()
     earth.writeData();
     moon.writeData();
     mars.writeData();
+    wand.writeData();
 }
 
 void myDecodeFun()
@@ -327,7 +487,7 @@ void myDecodeFun()
     earth.getData();
     moon.getData();
     mars.getData();
-
+    wand.getData();
 }
 
 void keyCallback(int key, int action)
@@ -373,30 +533,7 @@ void keyCallback(int key, int action)
 
             case GLFW_KEY_ENTER:
                 if(action == GLFW_PRESS)
-                {
-                    f32 nearestHit = MAXFLOAT;
-
-                    f32 hit = intersectSphere(moon.getPosition(),moon.getScale());
-                    if(hit < nearestHit)
-                    {
-                        chosenEntity = &moon;
-                        nearestHit = hit;
-                    }
-
-                    hit = intersectSphere(earth.getPosition(),earth.getScale());
-                    if(hit < nearestHit)
-                    {
-                        chosenEntity = &earth;
-                        nearestHit = hit;
-                    }
-
-                    hit = intersectSphere(mars.getPosition(),mars.getScale());
-                    if(hit < nearestHit)
-                    {
-                        chosenEntity = &mars;
-                        nearestHit = hit;
-                    }
-                }
+                    getSelectedEntity();
                 break;
 
             case 'W':

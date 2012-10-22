@@ -11,7 +11,7 @@
 				<Option object_output="obj\Debug\" />
 				<Option type="1" />
 				<Option compiler="gcc" />
-				<Option parameters='-config &quot;single.xml&quot;' />
+				<Option parameters='-config &quot;vr.xml&quot;' />
 				<Compiler>
 					<Add option="-g" />
 				</Compiler>
@@ -34,7 +34,7 @@
 			<Add option="-Wall" />
 			<Add option="-DGLEW_STATIC" />
 			<Add option="-D__WIN32__" />
-			<Add directory="C:\Program Files (x86)\SGCT\SGCT_0.9.4_x86\include" />
+			<Add directory="S:\SGCT\SGCT-0.9.5\include" />
 		</Compiler>
 		<Linker>
 			<Add option="-static-libgcc" />
@@ -43,10 +43,11 @@
 			<Add library="opengl32" />
 			<Add library="glu32" />
 			<Add library="ws2_32" />
-			<Add directory="C:\Program Files (x86)\SGCT\SGCT_0.9.4_x86\lib\mingw" />
+			<Add directory="S:\SGCT\SGCT-0.9.5\lib\mingw" />
 		</Linker>
 		<Unit filename="DrawableObject.cpp" />
 		<Unit filename="DrawableObject.h" />
+		<Unit filename="Entity3D.cpp" />
 		<Unit filename="Entity3D.h" />
 		<Unit filename="Geometry.h" />
 		<Unit filename="ObjLoader.cpp" />

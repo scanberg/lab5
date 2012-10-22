@@ -2,13 +2,16 @@
 <CodeBlocks_layout_file>
 	<ActiveTarget name="Debug" />
 	<File name="DrawableObject.cpp" open="1" top="0" tabpos="7">
-		<Cursor position="120" topLine="0" />
+		<Cursor position="140" topLine="38" />
 	</File>
 	<File name="DrawableObject.h" open="1" top="0" tabpos="5">
 		<Cursor position="167" topLine="0" />
 	</File>
+	<File name="Entity3D.cpp" open="1" top="0" tabpos="9">
+		<Cursor position="1152" topLine="0" />
+	</File>
 	<File name="Entity3D.h" open="1" top="0" tabpos="6">
-		<Cursor position="199" topLine="0" />
+		<Cursor position="713" topLine="0" />
 	</File>
 	<File name="Geometry.h" open="1" top="0" tabpos="2">
 		<Cursor position="333" topLine="24" />
@@ -19,10 +22,10 @@
 	<File name="ObjLoader.h" open="1" top="0" tabpos="3">
 		<Cursor position="274" topLine="0" />
 	</File>
-	<File name="Types.h" open="1" top="1" tabpos="8">
-		<Cursor position="294" topLine="0" />
+	<File name="Types.h" open="1" top="0" tabpos="8">
+		<Cursor position="268" topLine="0" />
 	</File>
-	<File name="main.cpp" open="1" top="0" tabpos="1">
-		<Cursor position="5244" topLine="133" />
+	<File name="main.cpp" open="1" top="1" tabpos="1">
+		<Cursor position="2451" topLine="109" />
 	</File>
 </CodeBlocks_layout_file>

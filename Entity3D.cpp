@@ -57,6 +57,7 @@ void Entity3D::draw()
         return;
 
     glBindTexture( GL_TEXTURE_2D, textureID );
+
     glPushMatrix();
         mat4 m = getLocalMatrix();
         glMultMatrixf(glm::value_ptr(m));
